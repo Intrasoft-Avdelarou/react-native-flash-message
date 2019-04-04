@@ -4,9 +4,9 @@ import React, { Component } from "react";
 import { StyleSheet, TouchableWithoutFeedback, Platform, StatusBar, Animated, Image, Text, View } from "react-native";
 import { isIphoneX, getStatusBarHeight } from "react-native-iphone-x-helper";
 import PropTypes from "prop-types";
-
 import FlashMessageManager from "./FlashMessageManager";
 import FlashMessageWrapper, { styleWithInset } from "./FlashMessageWrapper";
+import CachedImage from '../../../src/components/image';
 
 /**
  * MessageComponent `minHeight` property used mainly in vertical transitions
@@ -21,9 +21,12 @@ const OFFSET_HEIGHT = Platform.OS !== "ios" ? 60 : 48;
  * If you need to customize the bg color or text color for a single message you can use the `backgroundColor` and `color` attributes
  */
 const MessagePropType = PropTypes.shape({
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
   description: PropTypes.string,
+  appName: PropTypes.string,
+  time: PropTypes.string,
   type: PropTypes.string,
+  userImage: PropTypes.String,
   backgroundColor: PropTypes.string,
   color: PropTypes.string,
 }).isRequired;
@@ -159,6 +162,10 @@ export const renderFlashMessageIcon = (icon = "success", style = {}, customProps
       return (
         <Image style={[styles.flashIcon, style]} source={require("./icons/fm_icon_danger.png")} {...customProps} />
       );
+    case "mynet":
+      return (
+        <Image style={[styles.flashIcon, style]} source={require("../../../src/assets/img/usefulresourcescosmotetv.jpg")} {...customProps} />
+      );
     default:
       return null;
   }
@@ -212,27 +219,43 @@ export const DefaultFlash = ({
             ],
             wrapperInset,
             !!hideStatusBar,
-            position !== "center" && floating ? "margin" : "padding"
+            position !== "center" && floating ? "margin" : "padding", {width:'100%'}
           )}
           {...props}>
+          <View style={{flexDirection:'column', width:'100%'}}>
+
+          {/* header */}
+          <View style={{flexDirection:'row', backgroundColor:'#F1F1F1', width:'100%'}}>
           {hasIcon && icon.position === "left" && iconView}
-          <View style={styles.flashLabel}>
-            <Text
-              style={[
-                styles.flashText,
-                hasDescription && styles.flashTitle,
-                !!message.color && { color: message.color },
-                titleStyle,
-              ]}>
-              {message.message}
-            </Text>
-            {hasDescription && (
-              <Text style={[styles.flashText, !!message.color && { color: message.color }, textStyle]}>
-                {message.description}
+            {hasIcon && icon.position === "right" && iconView}
+            <View style={{left: 10, flexDirection:'row', width:'100%', borderBottomColor: '#808080', borderBottomWidth: 1}}>
+              <Text style={[styles.flashText, {left: 0}]}>
+                {message.appName}
               </Text>
-            )}
+              <Text style={[styles.flashText, {left: 190}]}>
+                {message.time}
+              </Text>
+              </View>
           </View>
-          {hasIcon && icon.position === "right" && iconView}
+
+          {/* body */}
+          <View style={{flexDirection: 'row', top: 5}}>
+            {message.userImage ? 
+              <CachedImage id={message.userImage} type={'avatar'} kind={"avatar"} style={{ height: 40, width: 40, borderRadius: 20, top: 5}}/> :
+              <Image source={require('../../../src/assets/img/avatar_gen.jpg')} style={{ height: 35, width: 35, resizeMode: 'contain',}} />
+            }
+            <View style={{flexDirection: 'column', left: 10}}>
+              <Text numberOfLines={1}style={[styles.flashText, hasDescription && styles.flashTitle, !!message.color && { color: message.color }, titleStyle]}>
+                  {message.message}
+              </Text>
+              {hasDescription && (
+                <Text numberOfLines={2} style={[styles.flashText, !!message.color && { color: message.color }, textStyle, {maxWidth:'95%'}]}>
+                  {message.description}
+                </Text>
+              )}
+            </View>
+          </View>
+        </View>
         </View>
       )}
     </FlashMessageWrapper>
@@ -605,28 +628,25 @@ const styles = StyleSheet.create({
   defaultFlashWithIcon: {
     flexDirection: "row",
   },
-  flashLabel: {
-    flexDirection: "column",
-  },
   flashText: {
     fontSize: 14,
-    lineHeight: 18,
-    color: "#fff",
+    color: "#808080",
   },
   flashTitle: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "500",
     marginBottom: 5,
   },
   flashIcon: {
-    tintColor: "#fff",
-    marginTop: -1,
-    width: 21,
-    height: 21,
+    height: 25,
+    width: 25,
+    resizeMode: 'contain'
   },
   flashIconLeft: {
-    marginLeft: -6,
-    marginRight: 9,
+    left: 0,
+    height: 25,
+    width: 25,
+    resizeMode: 'contain'
   },
   flashIconRight: {
     marginRight: -6,
