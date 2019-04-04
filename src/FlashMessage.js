@@ -245,9 +245,11 @@ export const DefaultFlash = ({
               <Image source={require('../../../src/assets/img/avatar_gen.jpg')} style={{ height: 35, width: 35, resizeMode: 'contain',}} />
             }
             <View style={{flexDirection: 'column', left: 10}}>
-              <Text numberOfLines={1}style={[styles.flashText, hasDescription && styles.flashTitle, !!message.color && { color: message.color }, titleStyle]}>
-                  {message.message}
-              </Text>
+              {message.message !== "" &&
+                <Text numberOfLines={1}style={[styles.flashText, hasDescription && styles.flashTitle, !!message.color && { color: message.color }, titleStyle]}>
+                    {message.message}
+                </Text>
+              }
               {hasDescription && (
                 <Text numberOfLines={2} style={[styles.flashText, !!message.color && { color: message.color }, textStyle, {maxWidth:'95%'}]}>
                   {message.description}
