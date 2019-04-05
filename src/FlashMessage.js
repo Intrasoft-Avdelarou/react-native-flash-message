@@ -246,7 +246,7 @@ export const DefaultFlash = ({
             }
             <View style={{flexDirection: 'column', left: 10}}>
               {message.message !== "" &&
-                <Text numberOfLines={1}style={[styles.flashText, hasDescription && styles.flashTitle, !!message.color && { color: message.color }, titleStyle]}>
+                <Text numberOfLines={message.message.length <=25 ? 1 : 2} style={[styles.flashText, hasDescription && styles.flashTitle, !!message.color && { color: message.color }, titleStyle, {maxWidth:message.message.length <=25 ? '100%' : '95%'}]}>
                     {message.message}
                 </Text>
               }
