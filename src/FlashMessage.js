@@ -228,11 +228,11 @@ export const DefaultFlash = ({
           <View style={{flexDirection:'row', backgroundColor:'#F1F1F1', width:'100%'}}>
           {hasIcon && icon.position === "left" && iconView}
             {hasIcon && icon.position === "right" && iconView}
-            <View style={{left: 10, flexDirection:'row', width:'100%', borderBottomColor: '#808080', borderBottomWidth: 1}}>
+            <View style={{left: 10, flexDirection:'row', width:Platform.OS !== "ios" ? '100%' : '95%', borderBottomColor: '#808080', borderBottomWidth: 1}}>
               <Text style={[styles.flashText, {left: 0}]}>
                 {message.appName}
               </Text>
-              <Text style={[styles.flashText, {left: 190}]}>
+              <Text style={[styles.flashText, {left: Platform.OS !== "ios" ? 190 : 170}]}>
                 {message.time}
               </Text>
               </View>
