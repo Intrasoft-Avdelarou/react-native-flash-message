@@ -164,7 +164,7 @@ export const renderFlashMessageIcon = (icon = "success", style = {}, customProps
       );
     case "mynet":
       return (
-        <Image style={[styles.flashIcon, style]} source={require("../../../src/assets/img/usefulresourcescosmotetv.jpg")} {...customProps} />
+        <Image style={[styles.flashIcon, style]} source={require("../../../src/assets/img/mainAppIcon.png")} {...customProps} />
       );
     default:
       return null;
