@@ -251,7 +251,7 @@ export const DefaultFlash = ({
                 </Text>
               }
               {hasDescription && (
-                <Text numberOfLines={2} style={[styles.flashText, !!message.color && { color: message.color }, textStyle, {maxWidth:'95%'}]}>
+                <Text numberOfLines={3} style={[styles.flashText, !!message.color && { color: message.color }, textStyle, {maxWidth:'95%'}]}>
                   {message.description}
                 </Text>
               )}
